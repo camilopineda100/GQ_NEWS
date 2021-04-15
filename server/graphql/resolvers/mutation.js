@@ -1,5 +1,5 @@
 const { User } = require('../../models/user') 
-const { AuthenticationError } = require('apollo-server-express')
+const { AuthenticationError, ApolloError } = require('apollo-server-express')
 const authorize = require('../../utils/auth')
 const { userOnwerShip } = require('../../utils/tools')
 
@@ -54,7 +54,7 @@ module.exports = {
                 console.log('user id', args._id)
 
                 // TODO: validate fields
-                
+
                 const user = await User.findOneAndUpdate(
                     { _id: args._id },
                     { 
@@ -69,6 +69,29 @@ module.exports = {
                 return {...user._doc}
             } catch (err) {
                 throw err
+            }
+        },
+        updateUserEmailPass: async (parent, args, context, info) => {
+            try {
+                const req = authorize(context.req)
+                if(!userOnwerShip(req, args._id)) { throw new AuthenticationError("You don't own this user") }
+
+                const user = await User.findOne({ _id: req._id })
+                if(!user) { throw new AuthenticationError("Sorry, try again") }
+
+                if(args.email) { user.email = args.email }
+                if(args.password) { user.password = args.password }
+
+                const getToken = await user.generateToken()
+                if(!getToken) {
+                    throw new AuthenticationError("Something went wrong, try again")
+                }
+
+                // TODO: validate
+                
+                return { ...getToken._doc, token: getToken.token }
+            } catch (err) {
+                throw new ApolloError("Something went wrong, try again")
             }
         }
     }

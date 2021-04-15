@@ -15,7 +15,7 @@ const server = new ApolloServer({
         Mutation
     },
     context: ({ req }) => {
-        req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDc4NDlkODJmYTg3ZTU0YjAwYzhlNTEiLCJlbWFpbCI6ImVtYWlsMUBlbWFpbC5jb20iLCJpYXQiOjE2MTg0OTU5NjAsImV4cCI6MTYxOTEwMDc2MH0._0EHIIPeJjZR7O3aewlLwvXEiJZmlnJELrstlH8McJg'
+        req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDc4NDlkODJmYTg3ZTU0YjAwYzhlNTEiLCJlbWFpbCI6ImVtYWlsMTAwQGVtYWlsLmNvbSIsImlhdCI6MTYxODUxMjYyMSwiZXhwIjoxNjE5MTE3NDIxfQ.dXEWlpPPPm48lAVP7843Fw9J4BGt00AbJ7gnazImrmw'
         return { req }
     }
 })
