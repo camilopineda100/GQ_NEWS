@@ -9,10 +9,18 @@ module.exports = {
                 if(!user) { throw new AuthenticationError("Wrong email") }
 
                 const checkpass = await user.comparePassword(args.fields.password)
+                if(!checkpass) { throw new AuthenticationError("Wrong password") }
 
-                console.log(checkpass)
+                const getToken = await user.generateToken()
+                if(!getToken) {
+                    throw new AuthenticationError("Something went wrong, try again")
+                }
 
-                return user
+                return {
+                    _id: user.id,
+                    email: user.email,
+                    token: getToken.token
+                }
             } catch(err) {
                 throw err
             }
@@ -25,7 +33,6 @@ module.exports = {
                 })
                 
                 const getToken = await user.generateToken()
-
                 if(!getToken) {
                     throw new AuthenticationError("Something went wrong, try again")
                 }
