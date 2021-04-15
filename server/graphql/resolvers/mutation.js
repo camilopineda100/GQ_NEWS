@@ -3,6 +3,7 @@ const { AuthenticationError, ApolloError } = require('apollo-server-express')
 const authorize = require('../../utils/auth')
 const { userOnwerShip } = require('../../utils/tools')
 const { Post } = require('../../models/post')
+const { Category } = require('../../models/category')
 
 module.exports = {
     Mutation: {
@@ -115,6 +116,23 @@ module.exports = {
             } catch (err) {
                 throw err
             }
-        }
+        },
+        createCategory: async (parent, { name }, context, info) => {
+            try {
+                const req = authorize(context.req)
+
+                // TODO: category field validations
+                const category = await new Category({
+                    name,
+                    author: req._id
+                })
+
+                const result = await category.save()
+
+                return { ...result._doc }
+            } catch (err) {
+                throw err
+            }
+        },
     }
 }
