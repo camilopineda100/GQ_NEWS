@@ -2,6 +2,7 @@ const { User } = require('../../models/user')
 const { AuthenticationError, ApolloError } = require('apollo-server-express')
 const authorize = require('../../utils/auth')
 const { userOnwerShip } = require('../../utils/tools')
+const { Post } = require('../../models/post')
 
 module.exports = {
     Mutation: {
@@ -92,6 +93,27 @@ module.exports = {
                 return { ...getToken._doc, token: getToken.token }
             } catch (err) {
                 throw new ApolloError("Something went wrong, try again")
+            }
+        },
+        createPost: async (parent, { fields }, context, info) => {
+            try {
+                const req = authorize(context.req)
+
+                // TODO: post field validations
+                const post = await new Post({
+                    title: fields.title,
+                    excerpt: fields.excerpt,
+                    content: fields.content,
+                    status: fields.status,
+                    author: req._id
+                })
+
+                const result = await post.save()
+
+                return { ...result._doc }
+
+            } catch (err) {
+                throw err
             }
         }
     }
