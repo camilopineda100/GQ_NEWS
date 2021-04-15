@@ -13,6 +13,10 @@ const server = new ApolloServer({
     resolvers: {
         Query,
         Mutation
+    },
+    context: ({ req }) => {
+        req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDc4NDlkODJmYTg3ZTU0YjAwYzhlNTEiLCJlbWFpbCI6ImVtYWlsMUBlbWFpbC5jb20iLCJpYXQiOjE2MTg0OTU5NjAsImV4cCI6MTYxOTEwMDc2MH0._0EHIIPeJjZR7O3aewlLwvXEiJZmlnJELrstlH8McJg'
+        return { req }
     }
 })
 
