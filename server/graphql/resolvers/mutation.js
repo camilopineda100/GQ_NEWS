@@ -4,7 +4,18 @@ const { AuthenticationError } = require('apollo-server-express')
 module.exports = {
     Mutation: {
         authUser: async (parent, args, context, info) => {
-            return true
+            try {
+                const user = await User.findOne({ email: args.fields.email })
+                if(!user) { throw new AuthenticationError("Wrong email") }
+
+                const checkpass = await user.comparePassword(args.fields.password)
+
+                console.log(checkpass)
+
+                return user
+            } catch(err) {
+                throw err
+            }
         },
         signUp: async (parent, args, context, info) => {
             try {
