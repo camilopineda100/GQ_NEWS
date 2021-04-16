@@ -5,6 +5,7 @@ const typeDefs = gql`
         user(id: ID): User!
         isAuth: User!
         post(id: ID): Post!
+        categories(catId: ID): [Category!]!
     }
 
     type Mutation {
@@ -45,6 +46,7 @@ const typeDefs = gql`
         author: User!
         posts: [Post!]!
     }
+    
     input AuthInput {
         email: String!
         password: String!

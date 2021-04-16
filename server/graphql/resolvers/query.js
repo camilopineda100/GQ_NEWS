@@ -1,6 +1,7 @@
-const { User } = require("../../models/user")
 const { AuthenticationError } = require('apollo-server-express')
 const authorize = require("../../utils/auth")
+const { User } = require("../../models/user")
+const { Category } = require("../../models/category")
 
 module.exports = {
     Query: {
@@ -34,12 +35,19 @@ module.exports = {
                 throw err
             }
         },
-        post: async (parent, args, context, info) => {
+        categories:  async (parent, args, context, info) => {
             try {
-                const req = authorize(context.req)
-            } catch (err) {
+                authorize(context.req)
+                const categoryQuery = {}
+                if(args.catId) {
+                    categoryQuery._id = args.catId
+                }
 
+                const categories = await Category.find(categoryQuery)
+                return categories
+            } catch (err) {
+                throw err
             }
-        }
+        },
     }
 }
