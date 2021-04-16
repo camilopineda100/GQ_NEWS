@@ -106,7 +106,8 @@ module.exports = {
                     excerpt: fields.excerpt,
                     content: fields.content,
                     status: fields.status,
-                    author: req._id
+                    author: req._id,
+                    category: fields.category
                 })
 
                 const result = await post.save()

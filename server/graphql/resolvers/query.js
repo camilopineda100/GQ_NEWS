@@ -33,6 +33,13 @@ module.exports = {
             } catch(err) {
                 throw err
             }
+        },
+        post: async (parent, args, context, info) => {
+            try {
+                const req = authorize(context.req)
+            } catch (err) {
+
+            }
         }
     }
 }

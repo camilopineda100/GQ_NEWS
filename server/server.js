@@ -6,13 +6,17 @@ const mongoose = require('mongoose')
 const typeDefs = require('./graphql/schema')
 const { Query } = require('./graphql/resolvers/query')
 const { Mutation } = require('./graphql/resolvers/mutation')
+const { User } = require('./graphql/resolvers/user')
+const { Post } = require('./graphql/resolvers/post')
 
 const app = express()
 const server = new ApolloServer({
     typeDefs,
     resolvers: {
         Query,
-        Mutation
+        Mutation,
+        User,
+        Post
     },
     context: ({ req }) => {
         req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDc4NDlkODJmYTg3ZTU0YjAwYzhlNTEiLCJlbWFpbCI6ImVtYWlsMTAwQGVtYWlsLmNvbSIsImlhdCI6MTYxODUxMjYyMSwiZXhwIjoxNjE5MTE3NDIxfQ.dXEWlpPPPm48lAVP7843Fw9J4BGt00AbJ7gnazImrmw'
