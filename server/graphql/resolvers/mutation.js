@@ -165,5 +165,23 @@ module.exports = {
                 throw err
             }
         },
+        updateCategory: async (parent, { catId, name }, context, info) => {
+            try {
+                const req = authorize(context.req)
+                const category = await Category.findOneAndUpdate({ 
+                    _id: catId 
+                }, {
+                    "$set": {
+                        name
+                    }
+                }, {
+                    new: true
+                })
+
+                return { ...category._doc }
+            } catch (err) {
+                throw err
+            }
+        }
     }
 }
