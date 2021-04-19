@@ -1,5 +1,5 @@
 const { User } = require('../../models/user') 
-const { AuthenticationError, ApolloError } = require('apollo-server-express')
+const { AuthenticationError, ApolloError, UserInputError } = require('apollo-server-express')
 const authorize = require('../../utils/auth')
 const { userOnwerShip } = require('../../utils/tools')
 const { Post } = require('../../models/post')
@@ -134,6 +134,19 @@ module.exports = {
             const result = await post.save()
 
             return { ...result._doc }
+        },
+        deletePost: async(parent, { postId }, context, info) => {
+            try {
+                const req = authorize(context.req)
+                const post = await Post.findByIdAndRemove(postId)
+    
+                if(!post)
+                throw new UserInputError('Sorry.Not able to find your post or it was deleted already')
+    
+                return post
+            } catch (err) {
+                throw err
+            }
         },
         createCategory: async (parent, { name }, context, info) => {
             try {
