@@ -1,11 +1,28 @@
 import React, { Component } from 'react'
+import {
+    BrowserRouter,
+    Switch,
+    Route
+} from 'react-router-dom'
+import { Container } from 'react-bootstrap'
+
+import Home from './components/home'
+import Header from './components/header'
+import UserAccess from './components/userArea/access'
 
 class Routes extends Component {
     render () {
         return (
-            <>
-             routes
-            </>
+            <BrowserRouter>
+                <Header />
+
+                <Container className="mt-4">
+                    <Switch>
+                        <Route path="/signin" component={UserAccess}/>
+                        <Route path="/" component={Home}/>
+                    </Switch>
+                </Container>
+            </BrowserRouter>
         )
     }
 }
