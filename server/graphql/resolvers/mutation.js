@@ -118,6 +118,23 @@ module.exports = {
                 throw err
             }
         },
+        updatePost: async(parent, { fields, postId }, context, info) => {
+            const req = authorize(context.req)
+            const post = await Post.findOne({ _id: postId })
+            
+            if(!userOnwerShip(req, post.author))
+            throw new AuthenticationError('Unauthorized, sorry')
+            
+            for(key in fields) {
+                if(post[key] != fields[key]) {
+                    post[key] = fields[key]
+                }
+            }
+
+            const result = await post.save()
+
+            return { ...result._doc }
+        },
         createCategory: async (parent, { name }, context, info) => {
             try {
                 const req = authorize(context.req)
