@@ -4,8 +4,12 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { signupUser } from '../../../store/actions'
+import axios from 'axios'
 
-const UserAccess = () => {
+import ToastHandler from '../../utils/toasts'
+
+
+const UserAccess = (props) => {
     const dispatch = useDispatch()
     const [type, setType] = useState(true)
     const formik = useFormik({
@@ -34,10 +38,25 @@ const UserAccess = () => {
         if(type) {
 
         } else {
-            dispatch(signupUser(values))
+            dispatch(signupUser(values)).then(({payload}) => {
+                successHandler(payload)
+            })
         }
     } 
 
+    const successHandler = (payload) => {
+        const errors = payload.errors
+        const auth = payload.auth
+
+        if(errors) { ToastHandler(errors, 'ERROR') }
+
+        if(auth) {
+            localStorage.setItem('X-AUTH', auth.token)
+            props.history.push('/user_area')
+            ToastHandler('Welcome', 'SUCCESS')
+            axios.defaults.headers.common['Authorization'] = `Bearer ${auth.token}`
+        }
+    }
     return(
         <>
             <Form onSubmit={formik.handleSubmit}>

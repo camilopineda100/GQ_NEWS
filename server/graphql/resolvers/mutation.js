@@ -46,7 +46,7 @@ module.exports = {
                 if(err.code === 11000) {
                     throw new AuthenticationError("Sorry the email is duplicated, try a new one")
                 }
-                throw err
+                throw new ApolloError('Sorry something went wrong', null, err)
             }
         },
         updateUserProfile: async (parent, args, context, info) => {
