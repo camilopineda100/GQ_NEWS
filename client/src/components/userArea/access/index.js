@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { signupUser } from '../../../store/actions'
 
 const UserAccess = () => {
+    const dispatch = useDispatch()
     const [type, setType] = useState(true)
     const formik = useFormik({
         initialValues: {
@@ -15,17 +18,26 @@ const UserAccess = () => {
                 .email('Invalid email')
                 .required('Sorry the email is required'),
             password: Yup.string()
-                .min(5, 'Must be more than 5 characters')
+                .min(3, 'Must be more than 5 characters')
                 .required('Sorry password is required')
         }),
         onSubmit: values => {
-            console.log(values)
+            onSubmitHandler(values)
         }
     })
 
     const switchTypeHandler = () => {
         setType(!type)
     }
+
+    const onSubmitHandler = (values) => {
+        if(type) {
+
+        } else {
+            dispatch(signupUser(values))
+        }
+    } 
+
     return(
         <>
             <Form onSubmit={formik.handleSubmit}>
