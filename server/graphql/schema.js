@@ -5,6 +5,7 @@ const typeDefs = gql`
         user(id: ID): User!
         isAuth: User!
         post(id: ID): Post!
+        posts(sort: SortInput, queryBy: QueryByInput): [Post!]!
         categories(catId: ID): [Category!]!
     }
 
@@ -58,6 +59,18 @@ const typeDefs = gql`
         content: String
         status: PostStatus
         category: ID
+    }
+
+    input SortInput {
+        sortBy: String
+        order: String
+        limit: Int
+        skip: Int
+    }
+
+    input QueryByInput {
+        key: String!
+        value: String!
     }
 
     enum PostStatus {
