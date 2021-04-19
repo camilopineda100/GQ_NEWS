@@ -182,6 +182,17 @@ module.exports = {
             } catch (err) {
                 throw err
             }
+        },
+        deleteCategory: async (parent, { catId }, context, info) => {
+            try {
+                const req = authorize(context.req)
+                const category = await Category.findByIdAndRemove(catId)
+                if(!category) throw new UserInputError('Sorry.Not able to find your category or it was deleted already')
+
+                return category
+            } catch (err) {
+                throw err
+            }
         }
     }
 }
