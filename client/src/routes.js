@@ -11,6 +11,11 @@ import Home from './components/home'
 import Header from './components/header'
 import UserAccess from './components/userArea/access'
 import AutoSignIn from './components/hoc/autoSignIn'
+import UserArea from './components/userArea'
+import Profile from './components/userArea/profile'
+import AdminArticles from './components/userArea/articles/index'
+import CreateArticles from './components/userArea/articles/create'
+
 
 class Routes extends Component {
     render () {
@@ -22,6 +27,10 @@ class Routes extends Component {
 
                     <Container className="mt-4">
                         <Switch>
+                            <Route path="/user_area/profile" component={Profile}/>
+                            <Route path="/user_area/articles" component={AdminArticles}/>
+                            <Route path="/user_area/create" component={CreateArticles}/>
+                            <Route path="/user_area" component={UserArea}/>
                             <Route path="/signin" component={UserAccess}/>
                             <Route path="/" component={Home}/>
                         </Switch>
