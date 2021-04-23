@@ -3,11 +3,17 @@ import { withRouter } from 'react-router'
 import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { logoutUser } from '../store/actions'
 
 const Header = (props) => {
     const { history } = props
     const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        dispatch(logoutUser())
+        history.push('/')
+    }
 
     return (
         <>
@@ -20,9 +26,11 @@ const Header = (props) => {
                 <Nav>
                     {user.auth ?
                         <>
-                            <LinkContainer to="">
-                                <Nav.Link>Logout</Nav.Link>
-                            </LinkContainer>
+                            <Nav.Link
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Nav.Link>
 
                             <LinkContainer to="/user_area">
                                 <Nav.Link>User</Nav.Link>

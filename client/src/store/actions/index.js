@@ -6,11 +6,19 @@ export const signupUser = (userData) => ({
 })
 
 export const loginUser= (userData) => ({
-    type: 'LOGIN_USER',
+    type: 'AUTH_USER',
     payload: api.loginUser(userData)
 })
 
 export const autoSignIn= (userData) => ({
-    type: 'AUTO_LOGIN',
+    type: 'AUTH_USER',
     payload: api.autoSignIn(userData)
 })
+
+export const logoutUser = () => {
+    localStorage.removeItem('X-AUTH')
+    return {
+        type: 'AUTH_USER',
+        payload: { auth: null }
+    }
+}
