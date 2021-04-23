@@ -3,7 +3,7 @@ import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
-import { signupUser } from '../../../store/actions'
+import { signupUser, loginUser } from '../../../store/actions'
 import axios from 'axios'
 
 import ToastHandler from '../../utils/toasts'
@@ -36,7 +36,9 @@ const UserAccess = (props) => {
 
     const onSubmitHandler = (values) => {
         if(type) {
-
+            dispatch(loginUser(values)).then(({payload}) => {
+                successHandler(payload)
+            })
         } else {
             dispatch(signupUser(values)).then(({payload}) => {
                 successHandler(payload)
@@ -57,6 +59,13 @@ const UserAccess = (props) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${auth.token}`
         }
     }
+
+    useEffect(() => {
+        return function cleanup() {
+            // dispath to clear errors
+        }
+    })
+    
     return(
         <>
             <Form onSubmit={formik.handleSubmit}>

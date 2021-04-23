@@ -32,3 +32,31 @@ export const signupUser = async (userData) => {
         console.log(error)
     }
 }
+
+export const loginUser = async (userData) => {
+    try {
+        const { data } = await axios({
+            data: {
+                query: `mutation {
+                    authUser(
+                        fields: {
+                            email: "${userData.email}"
+                            password: "${userData.password}"
+                        }
+                    ) {
+                        _id
+                        email
+                        token
+                    }
+                }`
+            }
+        })
+
+        return {
+            auth: data.data ? data.data.authUser : null,
+            errors: data.errors
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
