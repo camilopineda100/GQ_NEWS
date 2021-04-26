@@ -1,11 +1,12 @@
 import React from 'react'
 import UserAreaHOC from '../../hoc/userAreaHoc'
+import EmailPass from './emailPass'
 
-const Profile = () => {
+const Profile = (props) => {
     return (
         <UserAreaHOC>
             <div className="mt-3">
-                profile
+                <EmailPass {...props}/>
             </div>
         </UserAreaHOC>
     )

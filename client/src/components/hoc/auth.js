@@ -10,7 +10,9 @@ export default function(ComposedComponent) {
             if(!user.auth) {
                 props.history.push('/')
             } else {
-                setIsAuth(true)
+                setTimeout(() => {
+                    setIsAuth(true)
+                }, 500)
             }
         }, [props, user])
 
