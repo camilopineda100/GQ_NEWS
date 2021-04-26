@@ -7,6 +7,7 @@ import {
 import { Container } from 'react-bootstrap'
 import { ToastContainer } from 'react-toastify'
 
+import Auth from './components/hoc/auth'
 import Home from './components/home'
 import Header from './components/header'
 import UserAccess from './components/userArea/access'
@@ -27,10 +28,10 @@ class Routes extends Component {
 
                     <Container className="mt-4">
                         <Switch>
-                            <Route path="/user_area/profile" component={Profile}/>
-                            <Route path="/user_area/articles" component={AdminArticles}/>
-                            <Route path="/user_area/create" component={CreateArticles}/>
-                            <Route path="/user_area" component={UserArea}/>
+                            <Route path="/user_area/profile" component={Auth(Profile)}/>
+                            <Route path="/user_area/articles" component={Auth(AdminArticles)}/>
+                            <Route path="/user_area/create" component={Auth(CreateArticles)}/>
+                            <Route path="/user_area" component={Auth(UserArea)}/>
                             <Route path="/signin" component={UserAccess}/>
                             <Route path="/" component={Home}/>
                         </Switch>
