@@ -27,3 +27,8 @@ export const updateUserEmailPass = (email, password, id) => ({
     type: 'AUTH_USER',
     payload: api.updateUserEmailPass(email, password, id)
 })
+
+export const getUserStats = (id) => ({
+    type: 'USER_STATS',
+    payload: api.getUserStats(id)
+})

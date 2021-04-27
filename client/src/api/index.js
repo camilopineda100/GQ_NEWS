@@ -3,7 +3,7 @@ import axios from 'axios'
 axios.defaults.baseURL = '/graphql'
 axios.defaults.method = 'POST'
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('X-AUTH')}`
-axios.defaults.headers.post['Content-type'] = 'application/json'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 export const signupUser = async (userData) => {
     try {
@@ -109,6 +109,36 @@ export const updateUserEmailPass = async (email, password, id) => {
             auth: data.data ? data.data.updateUserEmailPass : null
         }
     } catch (err) {
+        console.log(err)
+    }
+}
+
+export const getUserStats = async (id) => {
+    try {
+        const body = {
+            query:`
+                query User($id:ID!,$sort:SortInput){
+                    user(id:$id){
+                        name
+                        lastname
+                        posts(sort:$sort) { _id, title}
+                        categories { name }
+                    }
+                }
+            `,
+            variables:{
+                id:id,
+                sort: { sortBy: "_id", order: "desc",limit: 3 }
+            }
+        };
+
+        const { data } = await axios({
+            data: JSON.stringify(body)
+        })
+        return {
+            stats:data.data ? data.data.user :null
+        }
+    } catch(err) {
         console.log(err)
     }
 }
