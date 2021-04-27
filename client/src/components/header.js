@@ -15,6 +15,7 @@ const Header = (props) => {
         history.push('/')
     }
 
+    console.log(user.auth, "auth")
     return (
         <>
             <Navbar className="bg-custom" variant="dark">

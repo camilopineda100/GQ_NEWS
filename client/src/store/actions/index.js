@@ -18,8 +18,8 @@ export const autoSignIn= (userData) => ({
 export const logoutUser = () => {
     localStorage.removeItem('X-AUTH')
     return {
-        type: 'AUTH_USER',
-        payload: { auth: null }
+        type: 'LOGOUT_USER',
+        payload: null
     }
 }
 
