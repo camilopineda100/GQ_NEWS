@@ -142,3 +142,23 @@ export const getUserStats = async (id) => {
         console.log(err)
     }
 }
+
+export const getCategories = async() => {
+    try {
+        const body = {
+            query: `
+                query {
+                    categories {
+                        _id
+                        name
+                    }
+                }
+            `
+        }
+
+        const { data } = await axios({ data: JSON.stringify(body)})
+        return data
+    } catch (err) {
+
+    }
+}
