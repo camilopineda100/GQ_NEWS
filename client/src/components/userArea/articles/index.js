@@ -2,8 +2,7 @@ import React, { useReducer, useEffect }  from 'react'
 import UserAreaHOC from '../../hoc/userAreaHoc'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserPosts } from '../../../store/actions'
-
+import { getUserPosts, updatePostStatus } from '../../../store/actions'
 
 const Articles = (props) => {
     const [ sort, setSort ] = useReducer(
@@ -13,6 +12,11 @@ const Articles = (props) => {
 
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
+
+    const updateStatusHandler = (item) => {
+        const status = item.status === 'DRAFT' ? 'PUBLIC' : 'DRAFT'
+        dispatch(updatePostStatus(status, item._id, user.posts))
+    }
 
     useEffect(() => {
         dispatch(getUserPosts(sort, [], user.auth._id))
@@ -40,6 +44,7 @@ const Articles = (props) => {
                                         <td>{item.title}</td>
                                         <td>{item.category.name}</td>
                                         <td
+                                            onClick={() => updateStatusHandler(item)}
                                             className={item.status === 'DRAFT' ? 'yell' : 'green'}
                                         >
                                             {item.status}

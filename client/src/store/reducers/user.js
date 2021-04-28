@@ -14,6 +14,9 @@ export default function(state = {}, action) {
         case 'USER_POSTS': {
             return { ...state, ...action.payload }
         }
+        case 'UPDATE_POST': {
+            return { ...state, ...action.payload }
+        }
         default:
             return state
     }
