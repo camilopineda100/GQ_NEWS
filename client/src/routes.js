@@ -16,6 +16,7 @@ import UserArea from './components/userArea'
 import Profile from './components/userArea/profile'
 import AdminArticles from './components/userArea/articles/index'
 import CreateArticles from './components/userArea/articles/create'
+import Article from './components/article'
 
 
 class Routes extends Component {
@@ -33,6 +34,7 @@ class Routes extends Component {
                             <Route path="/user_area/create" component={Auth(CreateArticles)}/>
                             <Route path="/user_area" component={Auth(UserArea)}/>
                             <Route path="/signin" component={UserAccess}/>
+                            <Route path="/article/:id" component={Article}/>
                             <Route path="/" component={Home}/>
                         </Switch>
                     </Container>

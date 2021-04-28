@@ -1,5 +1,6 @@
 const { Category } = require("../../models/category")
 const { User } = require("../../models/user")
+const { Post } = require("../../models/post")
 const { sortArgsHelper } = require("../../utils/tools")
 
 module.exports = {
@@ -28,7 +29,7 @@ module.exports = {
         related: async (parent, { sort }, context, info) => {
             try {
                 let sortArgs = sortArgsHelper(sort)
-                const posts = await this.Post
+                const posts = await Post
                 .find({"category": parent.category})
                 .sort([[sortArgs.sortBy, sortArgs.order]])
                 .skip(sortArgs.skip)

@@ -54,7 +54,7 @@ module.exports = {
         post: async (parent, args, context, info) => {
             try {
                 authorize(context.req)
-                const post = await Category.findOne({ _id: args.id})
+                const post = await Post.findOne({ _id: args.id})
                 return post
             } catch (err) {
                 throw err
