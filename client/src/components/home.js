@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap'
 import Masonry from 'react-masonry-css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosts } from '../store/actions'
+import CardItem from './utils/card'
 
 const Home = () => {
     const [ sort, setSort ] = useReducer(
@@ -18,6 +19,19 @@ const Home = () => {
 
     return (
         <>
+            <Masonry
+                breakpointCols={3}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+            >
+                {
+                    posts && posts.homePosts ?
+                        posts.homePosts.map((item, index) => (
+                            <CardItem item={item} key={index}></CardItem>
+                        ))
+                    : null
+                }
+            </Masonry>
             <Button
                 onClick={() => {
                     let skip = sort.skip + sort.limit
