@@ -52,3 +52,8 @@ export const updatePostStatus = (status, postId, prevState) => ({
     type: 'UPDATE_POST',
     payload: api.updatePostStatus(status, postId, prevState)
 })
+
+export const removePost = (postId, prevState) => ({
+    type: 'USER_POSTS',
+    payload: api.removePost(postId, prevState)
+})
