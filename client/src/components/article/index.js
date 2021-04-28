@@ -31,6 +31,16 @@ const Article = (props) => {
                         <div>{myPost.content}</div>
                         <hr/>
                         <h3>Related posts</h3>
+                        <CardGroup>
+                            {
+                                myPost.related ?
+                                    myPost.related.map((item, index) => (
+                                        <CardItem item={item} key={index}></CardItem>
+                                    ))
+                                : null
+                            }
+                        </CardGroup>
+                        
                     </>
                 : null
             }
