@@ -8,9 +8,11 @@ import ToastHandler from '../../utils/toasts'
 import UserAreaHOC from '../../hoc/userAreaHoc'
 
 import { getCategories } from '../../../api'
+import { createPost, clearCreatedPost } from '../../../store/actions'
 
 const CreateArticles = () => {
     const [categories, setCategories] = useState(null)
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -31,8 +33,16 @@ const CreateArticles = () => {
             }),
             category: Yup.string().required('This field is required'),
         }),
-        onSubmit: values => {
-            console.log(values)
+        onSubmit: (values, { resetForm }) => {
+            dispatch(createPost(values)).then(({payload}) => {
+                if(payload.createdPost.post) {
+                    ToastHandler('Done!!', 'SUCCESS')
+                    resetForm()
+                }
+                if(payload.createdPost.error) {
+                    ToastHandler(payload.createdPost.error, 'ERROR')
+                }
+            })
         }
     })
 
@@ -43,6 +53,9 @@ const CreateArticles = () => {
         }
         func()
     }, [setCategories])
+
+    useEffect(() => () => dispatch(clearCreatedPost()), [dispatch])
+
     return (
         <UserAreaHOC>
             <Form onSubmit={formik.handleSubmit}>
@@ -97,6 +110,7 @@ const CreateArticles = () => {
                         onBlur={formik.handleBlur}
                         value={formik.values.category}
                     >
+                        <option></option>
                         { categories ?
                             categories.map((item, idx) => (
                                 <option key={idx} value={item._id}>{item.name}</option>

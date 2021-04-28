@@ -159,6 +159,34 @@ export const getCategories = async() => {
         const { data } = await axios({ data: JSON.stringify(body)})
         return data
     } catch (err) {
+        console.log(err)
+    }
+}
 
+export const createPost = async(args) => {
+    try {
+        const body = {
+            query: `
+                mutation CreatePost($fields: PostInput!) {
+                    createPost(fields: $fields) {
+                        _id
+                        title
+                    }
+                }
+            `,
+            variables: {
+                fields: args
+            }
+        }
+
+        const { data } = await axios({ data: JSON.stringify(body)})
+        return { 
+            createdPost: {
+                post: data.data ? data.data.createPost : null,
+                error: data.errors
+            }
+        }
+    } catch (err) {
+        console.log(err)
     }
 }
