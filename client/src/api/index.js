@@ -190,3 +190,39 @@ export const createPost = async(args) => {
         console.log(err)
     }
 }
+
+export const getUserPosts = async(sort, prevState, id) => {
+    try {
+       console.log(sort, prevState, id)
+       const body = {
+           query: `
+            query GetUserPosts($sort: SortInput, $queryBy: QueryByInput) {
+                posts(sort: $sort, queryBy: $queryBy) {
+                    _id
+                    title
+                    status
+                    category { name }
+                }
+            }
+           `,
+           variables: {
+               queryBy: { key: "author", value: id},
+               sort: sort
+           }
+       }
+
+       const { data } = await axios({ data: JSON.stringify(body) })
+
+       let newState
+       let newPosts = data.data ? data.data.posts : null
+       if(newPosts) {
+           newState = [...prevState, ...newPosts]
+       }
+
+       return {
+           posts: data.data ? newState : null
+       }
+    } catch (err) {
+        console.log(err)
+    }
+}
