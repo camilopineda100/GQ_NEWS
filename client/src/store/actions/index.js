@@ -57,3 +57,8 @@ export const removePost = (postId, prevState) => ({
     type: 'USER_POSTS',
     payload: api.removePost(postId, prevState)
 })
+
+export const getPosts = (sort, state) => ({
+    type: 'GET_POSTS',
+    payload: api.getPosts(sort, state)
+})

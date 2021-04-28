@@ -293,3 +293,42 @@ export const removePost = async(id, prevState) => {
         console.log(err)
     }
 }
+
+
+export const getPosts = async(sort, prevState) => {
+    try {
+        const body = {
+            query: `
+             query GetPost($sort: SortInput, $queryBy: QueryByInput) {
+                 posts(sort: $sort, queryBy: $queryBy) {
+                     _id
+                     title
+                     content
+                     excerpt
+                     category { name }
+                     author {
+                         name
+                         lastname
+                     }
+                 }
+             }
+            `,
+            variables: {
+                queryBy: { key: "status", value: 'PUBLIC' },
+                sort: sort
+            }
+        }
+       const { data } = await axios({ data: JSON.stringify(body) })
+
+       let newState = null
+       let newPosts = data.data ? data.data.posts : null
+       if(newPosts) {
+           newState = [...prevState, ...newPosts]
+       }
+       return {
+           homePosts: data.data ? newState : null
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
